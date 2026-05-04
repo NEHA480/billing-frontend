@@ -1,0 +1,42 @@
+<div class="card">
+  <h2>{{ isEdit ? 'Edit Bill' : 'Create New Bill' }}</h2>
+  <div *ngIf="errorMsg" class="error">{{ errorMsg }}</div>
+
+  <form [formGroup]="form" (ngSubmit)="submit()">
+    <div class="field">
+      <label>Customer Name</label>
+      <input formControlName="customerName" placeholder="Enter customer name" />
+      <span class="err" *ngIf="form.get('customerName')?.invalid && form.get('customerName')?.touched">Required</span>
+    </div>
+
+    <div class="field">
+      <label>Description</label>
+      <input formControlName="description" placeholder="Enter description" />
+      <span class="err" *ngIf="form.get('description')?.invalid && form.get('description')?.touched">Required</span>
+    </div>
+
+    <div class="field">
+      <label>Amount (₹)</label>
+      <input type="number" formControlName="amount" placeholder="0.00" />
+      <span class="err" *ngIf="form.get('amount')?.invalid && form.get('amount')?.touched">Valid positive amount required</span>
+    </div>
+
+    <div class="field">
+      <label>Status</label>
+      <select formControlName="status">
+        <option *ngFor="let s of statuses" [value]="s">{{ s }}</option>
+      </select>
+    </div>
+
+    <div class="field">
+      <label>Bill Date</label>
+      <input type="date" formControlName="billDate" />
+      <span class="err" *ngIf="form.get('billDate')?.invalid && form.get('billDate')?.touched">Required</span>
+    </div>
+
+    <div class="actions">
+      <button type="submit" class="btn-save" [disabled]="form.invalid">{{ isEdit ? 'Update' : 'Create' }}</button>
+      <button type="button" class="btn-cancel" (click)="cancel()">Cancel</button>
+    </div>
+  </form>
+</div>

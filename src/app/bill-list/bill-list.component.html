@@ -1,0 +1,33 @@
+<div class="card">
+  <h2>All Bills</h2>
+  <div *ngIf="errorMsg" class="error">{{ errorMsg }}</div>
+  <div *ngIf="bills.length === 0 && !errorMsg" class="empty">No bills found. <a routerLink="/bills/new">Create one</a>.</div>
+
+  <table *ngIf="bills.length > 0">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Customer</th>
+        <th>Description</th>
+        <th>Amount</th>
+        <th>Status</th>
+        <th>Date</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let bill of bills">
+        <td>{{ bill.id }}</td>
+        <td>{{ bill.customerName }}</td>
+        <td>{{ bill.description }}</td>
+        <td>₹{{ bill.amount | number:'1.2-2' }}</td>
+        <td><span [class]="'badge ' + statusClass(bill.status)">{{ bill.status }}</span></td>
+        <td>{{ bill.billDate }}</td>
+        <td>
+          <button class="btn-edit" (click)="edit(bill.id!)">Edit</button>
+          <button class="btn-delete" (click)="delete(bill.id!)">Delete</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
