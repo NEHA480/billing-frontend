@@ -1,0 +1,54 @@
+<div class="dashboard">
+  <h2>📊 Dashboard</h2>
+  
+  <div *ngIf="loading" class="loading">Loading...</div>
+  
+  <div *ngIf="!loading" class="stats-grid">
+    <div class="stat-card total">
+      <div class="stat-icon">📋</div>
+      <div class="stat-info">
+        <div class="stat-value">{{ stats.totalBills }}</div>
+        <div class="stat-label">Total Bills</div>
+      </div>
+    </div>
+
+    <div class="stat-card amount">
+      <div class="stat-icon">💰</div>
+      <div class="stat-info">
+        <div class="stat-value">₹{{ stats.totalAmount | number:'1.2-2' }}</div>
+        <div class="stat-label">Total Amount</div>
+      </div>
+    </div>
+
+    <div class="stat-card pending">
+      <div class="stat-icon">⏳</div>
+      <div class="stat-info">
+        <div class="stat-value">{{ stats.pendingCount }}</div>
+        <div class="stat-label">Pending Bills</div>
+        <div class="stat-sub">₹{{ stats.pendingAmount | number:'1.2-2' }}</div>
+      </div>
+    </div>
+
+    <div class="stat-card paid">
+      <div class="stat-icon">✅</div>
+      <div class="stat-info">
+        <div class="stat-value">{{ stats.paidCount }}</div>
+        <div class="stat-label">Paid Bills</div>
+        <div class="stat-sub">₹{{ stats.paidAmount | number:'1.2-2' }}</div>
+      </div>
+    </div>
+
+    <div class="stat-card cancelled">
+      <div class="stat-icon">❌</div>
+      <div class="stat-info">
+        <div class="stat-value">{{ stats.cancelledCount }}</div>
+        <div class="stat-label">Cancelled Bills</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="actions">
+    <a routerLink="/bills" class="btn-primary">View All Bills</a>
+    <a routerLink="/bills/new" class="btn-secondary">Create New Bill</a>
+  </div>
+</div>

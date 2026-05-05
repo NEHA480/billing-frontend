@@ -1,0 +1,66 @@
+<div class="register-container">
+  <div class="register-card">
+    <div class="register-header">
+      <h2>🧾 Billing App</h2>
+      <p>Create a new account</p>
+    </div>
+
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label>Company Name</label>
+        <input type="text" formControlName="companyName" placeholder="Enter your company name" />
+        <span class="validation-error" *ngIf="form.get('companyName')?.touched && form.get('companyName')?.errors?.['required']">
+          Company name is required
+        </span>
+        <span class="validation-error" *ngIf="form.get('companyName')?.touched && form.get('companyName')?.errors?.['minlength']">
+          Company name must be at least 2 characters
+        </span>
+      </div>
+
+      <div class="form-group">
+        <label>Username</label>
+        <input type="text" formControlName="username" placeholder="Enter username" />
+        <span class="validation-error" *ngIf="form.get('username')?.touched && form.get('username')?.errors?.['required']">
+          Username is required
+        </span>
+        <span class="validation-error" *ngIf="form.get('username')?.touched && form.get('username')?.errors?.['minlength']">
+          Username must be at least 3 characters
+        </span>
+      </div>
+
+      <div class="form-group">
+        <label>Password</label>
+        <input type="password" formControlName="password" placeholder="Enter password" />
+        <span class="validation-error" *ngIf="form.get('password')?.touched && form.get('password')?.errors?.['required']">
+          Password is required
+        </span>
+        <span class="validation-error" *ngIf="form.get('password')?.touched && form.get('password')?.errors?.['minlength']">
+          Password must be exactly 8 characters
+        </span>
+        <span class="validation-error" *ngIf="form.get('password')?.touched && form.get('password')?.errors?.['maxlength']">
+          Password must be exactly 8 characters
+        </span>
+        <span class="validation-error" *ngIf="form.get('password')?.touched && form.get('password')?.errors?.['weakPassword']">
+          Password must contain letters, numbers and special characters
+        </span>
+      </div>
+
+      <div class="form-group">
+        <label>Confirm Password</label>
+        <input type="password" formControlName="confirmPassword" placeholder="Confirm password" />
+        <span class="validation-error" *ngIf="form.get('confirmPassword')?.touched && form.hasError('mismatch')">
+          Passwords do not match
+        </span>
+      </div>
+
+      <div class="error-msg" *ngIf="error">⚠️ {{ error }}</div>
+
+      <button type="submit" [disabled]="loading || form.invalid">
+        <span *ngIf="!loading">Register</span>
+        <span *ngIf="loading">Registering...</span>
+      </button>
+    </form>
+
+    <p class="login-link">Already have an account? <a routerLink="/login">Login here</a></p>
+  </div>
+</div>

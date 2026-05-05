@@ -1,0 +1,21 @@
+<div class="card">
+  <h2>📋 Audit Log</h2>
+  <table *ngIf="logs.length > 0">
+    <thead>
+      <tr><th>Action</th><th>Performed By</th><th>Details</th><th>Timestamp</th></tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let log of logs">
+        <td><span class="badge">{{ log.action }}</span></td>
+        <td>{{ log.performedBy }}</td>
+        <td>{{ log.details }}</td>
+        <td>{{ log.timestamp | date:'medium' }}</td>
+      </tr>
+    </tbody>
+  </table>
+  <div *ngIf="logs.length === 0" class="empty">No audit logs found.</div>
+  <div class="pagination" *ngIf="totalPages > 1">
+    <button *ngFor="let p of [].constructor(totalPages); let i = index"
+            [class.active]="i === currentPage" (click)="changePage(i)">{{ i + 1 }}</button>
+  </div>
+</div>

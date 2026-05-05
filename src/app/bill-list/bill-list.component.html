@@ -1,18 +1,37 @@
 <div class="card">
-  <h2>All Bills</h2>
+  <div class="header-row">
+    <h2>📄 All Bills</h2>
+    <div class="header-actions">
+      <button class="btn-pdf-all" (click)="downloadAllPdf()">⬇ Export All PDF</button>
+      <a routerLink="/bills/new" class="btn-new">+ New Bill</a>
+    </div>
+  </div>
+
   <div *ngIf="errorMsg" class="error">{{ errorMsg }}</div>
-  <div *ngIf="bills.length === 0 && !errorMsg" class="empty">No bills found. <a routerLink="/bills/new">Create one</a>.</div>
+  <div *ngIf="successMsg" class="success">{{ successMsg }}</div>
+
+  <!-- Search & Filter -->
+  <div class="filter-bar">
+    <input type="text" placeholder="Search by customer name..." [(ngModel)]="filters.customerName" />
+    <select [(ngModel)]="filters.status">
+      <option value="">All Status</option>
+      <option value="PENDING">Pending</option>
+      <option value="PAID">Paid</option>
+      <option value="CANCELLED">Cancelled</option>
+    </select>
+    <input type="date" [(ngModel)]="filters.from" placeholder="From date" />
+    <input type="date" [(ngModel)]="filters.to" placeholder="To date" />
+    <button class="btn-filter" (click)="applyFilter()">🔍 Search</button>
+    <button class="btn-clear" (click)="clearFilter()">✕ Clear</button>
+  </div>
+
+  <div *ngIf="bills.length === 0" class="empty">No bills found.</div>
 
   <table *ngIf="bills.length > 0">
     <thead>
       <tr>
-        <th>#</th>
-        <th>Customer</th>
-        <th>Description</th>
-        <th>Amount</th>
-        <th>Status</th>
-        <th>Date</th>
-        <th>Actions</th>
+        <th>#</th><th>Customer</th><th>Description</th>
+        <th>Amount</th><th>Status</th><th>Date</th><th>Actions</th>
       </tr>
     </thead>
     <tbody>
@@ -23,11 +42,23 @@
         <td>₹{{ bill.amount | number:'1.2-2' }}</td>
         <td><span [class]="'badge ' + statusClass(bill.status)">{{ bill.status }}</span></td>
         <td>{{ bill.billDate }}</td>
-        <td>
-          <button class="btn-edit" (click)="edit(bill.id!)">Edit</button>
-          <button class="btn-delete" (click)="delete(bill.id!)">Delete</button>
+        <td class="actions-cell">
+          <button class="btn-edit" (click)="edit(bill.id!)">✏ Edit</button>
+          <button class="btn-paid" (click)="updateStatus(bill.id!, 'PAID')" *ngIf="bill.status !== 'PAID'">✅ Paid</button>
+          <button class="btn-cancel" (click)="updateStatus(bill.id!, 'CANCELLED')" *ngIf="bill.status !== 'CANCELLED'">❌ Cancel</button>
+          <button class="btn-pdf" (click)="downloadPdf(bill.id!)">📄 PDF</button>
+          <button class="btn-remind" (click)="sendReminder(bill.id!)">📧 Remind</button>
+          <button class="btn-delete" (click)="delete(bill.id!)">🗑 Delete</button>
         </td>
       </tr>
     </tbody>
   </table>
+
+  <!-- Pagination -->
+  <div class="pagination" *ngIf="totalPages > 1">
+    <button [disabled]="currentPage === 0" (click)="changePage(currentPage - 1)">‹ Prev</button>
+    <button *ngFor="let p of [].constructor(totalPages); let i = index"
+            [class.active]="i === currentPage" (click)="changePage(i)">{{ i + 1 }}</button>
+    <button [disabled]="currentPage === totalPages - 1" (click)="changePage(currentPage + 1)">Next ›</button>
+  </div>
 </div>

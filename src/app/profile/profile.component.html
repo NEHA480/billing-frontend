@@ -1,0 +1,23 @@
+<div class="profile-container">
+  <div class="profile-card" *ngIf="user">
+    <div class="avatar">{{ user.username.charAt(0).toUpperCase() }}</div>
+    <h2>{{ user.username }}</h2>
+    <span class="role-badge">{{ user.role }}</span>
+    <div class="details">
+      <div class="detail-row">
+        <span class="label">User ID</span>
+        <span class="value">{{ user.id }}</span>
+      </div>
+      <div class="detail-row">
+        <span class="label">Username</span>
+        <span class="value">{{ user.username }}</span>
+      </div>
+      <div class="detail-row">
+        <span class="label">Role</span>
+        <span class="value">{{ user.role }}</span>
+      </div>
+    </div>
+    <a routerLink="/bills" class="back-btn">← Back to Bills</a>
+  </div>
+  <div class="error-msg" *ngIf="error">⚠️ {{ error }}</div>
+</div>
